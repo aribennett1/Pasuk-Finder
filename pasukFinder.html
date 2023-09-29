@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tanach Pasuk Search</title>
+    <style>
+     body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f8fc; 
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #e4eaf3;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.hebrew-keyboard {
+    display: grid;
+    grid-template-columns: repeat(11, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 5px;
+    direction: rtl;
+    margin: 20px auto;
+    border: 2px solid #c4d1db;
+    padding: 10px;
+    background-color: #e4eaf3;
+    border-radius: 10px;
+}
+
+.hebrew-keyboard-label {
+    font-weight: bold;
+    text-align: center;
+    grid-column: span 11;
+    background-color: #c4d1db;
+    color: black;
+    border-radius: 10px 10px 0 0;
+    padding: 5px 0;
+}
+
+.hebrew-keyboard:first-child {
+    margin-right: 10px;
+}
+
+.hebrew-keyboard button {
+    background-color: #d5e0e8;
+    border: 1px solid #c4d1db;
+    border-radius: 5px;
+    padding: 5px 10px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.hebrew-keyboard button:hover {
+    background-color: #c4d1db;
+    color: white; 
+}
+
+.verse-display {
+    max-height: 300px;
+    overflow-y: scroll;
+    border: 1px solid #c4d1db;
+    padding: 10px;
+    text-align: right;
+    background-color: #e4eaf3; 
+    border-radius: 10px;
+    margin-top: 20px;
+}
+
+/* Style the scrollbar */
+.verse-display::-webkit-scrollbar {
+    width: 8px;
+    border-radius: 4px;
+}
+
+.verse-display::-webkit-scrollbar-thumb {
+    background-color: #c4d1db;
+    border-radius: 4px;
+}
+
+.verse-display::-webkit-scrollbar-thumb:hover {
+    background-color: #a7bac4;
+}
+
+    </style>
+</head>
+<body>
+   <div class="container">
+    <h1>Tanach Pasuk Search</h1>
+    <div class="hebrew-keyboard" id="hebrew-keyboard-1">
+      <div class="hebrew-keyboard-label">First Letter</div>
+         <button>א</button>
+         <button>ב</button>
+         <button>ג</button>
+         <button>ד</button>
+         <button>ה</button>
+         <button>ו</button>
+         <button>ז</button>
+         <button>ח</button>
+         <button>ט</button>
+         <button>י</button>
+         <button>כ</button>
+         <button>ל</button>
+         <button>מ</button>
+         <button>נ</button>
+         <button>ס</button>
+         <button>ע</button>
+         <button>פ</button>
+         <button>צ</button>
+         <button>ק</button>
+         <button>ר</button>
+         <button>ש</button>
+         <button>ת</button>
+    </div>
+    <br />
+    <div class="hebrew-keyboard" id="hebrew-keyboard-2">
+      <div class="hebrew-keyboard-label">Last Letter</div>
+         <button>א</button>
+         <button>ב</button>
+         <button>ג</button>
+         <button>ד</button>
+         <button>ה</button>
+         <button>ו</button>
+         <button>ז</button>
+         <button>ח</button>
+         <button>ט</button>
+         <button>י</button>
+         <button>כ</button>
+         <button>ל</button>
+         <button>מ</button>
+         <button>נ</button>
+         <button>ס</button>
+         <button>ע</button>
+         <button>פ</button>
+         <button>צ</button>
+         <button>ק</button>
+         <button>ר</button>
+         <button>ש</button>
+         <button>ת</button>
+    </div>
+    <div class="info-container">
+            <span class="info-text">First Letter: </span>
+            <span id="first-letter" class="letter-space"></span>
+            <span class="info-text">Last Letter: </span>
+            <span id="last-letter" class="letter-space"></span>
+        </div>
+        <div class="verse-display" id="verse-display">
+        </div>
+        <div class="info-container">
+            <span class="info-text">Total Pesukim: </span><span id="total-verses" class="letter-space">0</span>
+        </div>
+    </div>
+    <script>        
+document.addEventListener("DOMContentLoaded", function () {
+    const keyboard1 = document.getElementById("hebrew-keyboard-1");
+    const keyboard2 = document.getElementById("hebrew-keyboard-2");
+    const verseDisplay = document.getElementById("verse-display");
+    const firstLetterDisplay = document.getElementById("first-letter");
+    const lastLetterDisplay = document.getElementById("last-letter");
+    const totalVersesDisplay = document.getElementById("total-verses");
+    
+    let firstLetter = "";
+    let lastLetter = "";
+
+    keyboard1.addEventListener("click", function (event) {
+        if (event.target.tagName === "BUTTON") {
+            firstLetter = event.target.textContent;
+            firstLetterDisplay.textContent = firstLetter;
+            fetchVerses();
+        }
+    });
+
+    keyboard2.addEventListener("click", function (event) {
+        if (event.target.tagName === "BUTTON") {
+            lastLetter = event.target.textContent;            
+            lastLetterDisplay.textContent = lastLetter;
+            fetchVerses();
+        }
+    });
+
+    function fetchVerses() {
+        if (firstLetter && lastLetter) {
+            // Send the selected letters to the server-side function in code.gs
+            google.script.run.withSuccessHandler(displayVerses).getIndex(firstLetter, lastLetter);
+        }
+    }
+
+    function displayVerses(verses) {
+      console.log(verses);
+        verseDisplay.innerHTML = ""; // Clear previous content
+        if (verses && verses.length > 0) {
+          totalVersesDisplay.textContent = verses.length;
+            verses.forEach(function (verse) {
+                const p = document.createElement("p");
+                p.textContent = verse;
+                verseDisplay.appendChild(p);
+            });
+        } else {
+          totalVersesDisplay.textContent = 0;
+            verseDisplay.textContent = "No verses found.";
+        }
+    }
+});
+    </script>
+</body>
+</html>
