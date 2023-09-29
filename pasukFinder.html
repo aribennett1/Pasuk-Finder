@@ -89,6 +89,15 @@
     background-color: #a7bac4;
 }
 
+.submit-button {
+            background-color: #d5e0e8;
+            border: 1px solid #c4d1db;
+            border-radius: 5px;
+            padding: 5px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
@@ -151,8 +160,8 @@
             <span class="info-text">Last Letter: </span>
             <span id="last-letter" class="letter-space"></span>
         </div>
-        <div class="verse-display" id="verse-display">
-        </div>
+        <button class="submit-button" id="submit-button">Submit</button>
+        <div class="verse-display" id="verse-display"></div>        
         <div class="info-container">
             <span class="info-text">Total Pesukim: </span><span id="total-verses" class="letter-space">0</span>
         </div>
@@ -169,32 +178,33 @@ document.addEventListener("DOMContentLoaded", function () {
     let firstLetter = "";
     let lastLetter = "";
 
-    keyboard1.addEventListener("click", function (event) {
-        if (event.target.tagName === "BUTTON") {
-            firstLetter = event.target.textContent;
-            firstLetterDisplay.textContent = firstLetter;
+    document.getElementById("submit-button").addEventListener("click", function () {
             fetchVerses();
-        }
-    });
+        });
 
-    keyboard2.addEventListener("click", function (event) {
-        if (event.target.tagName === "BUTTON") {
-            lastLetter = event.target.textContent;            
-            lastLetterDisplay.textContent = lastLetter;
-            fetchVerses();
-        }
-    });
+        keyboard1.addEventListener("click", function (event) {
+            if (event.target.tagName === "BUTTON") {
+                firstLetter = event.target.textContent;
+                firstLetterDisplay.textContent = firstLetter;
+            }
+        });
+
+        keyboard2.addEventListener("click", function (event) {
+            if (event.target.tagName === "BUTTON") {
+                lastLetter = event.target.textContent;
+                lastLetterDisplay.textContent = lastLetter;
+            }
+        });
 
     function fetchVerses() {
-        if (firstLetter && lastLetter) {
-            // Send the selected letters to the server-side function in code.gs
+        if (firstLetter && lastLetter) {            
             google.script.run.withSuccessHandler(displayVerses).getIndex(firstLetter, lastLetter);
         }
     }
 
     function displayVerses(verses) {
       console.log(verses);
-        verseDisplay.innerHTML = ""; // Clear previous content
+        verseDisplay.innerHTML = "";
         if (verses && verses.length > 0) {
           totalVersesDisplay.textContent = verses.length;
             verses.forEach(function (verse) {
