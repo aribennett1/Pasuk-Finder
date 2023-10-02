@@ -177,14 +177,15 @@ document.addEventListener("DOMContentLoaded", function () {
     
     let firstLetter = "";
     let lastLetter = "";
-
+    
     function updateSubmitButton() {
-        if (firstLetter && lastLetter) {
-            document.getElementById("submit-button").removeAttribute("disabled");
-            submitButton.removeAttribute("title");
-        } else {
-            document.getElementById("submit-button").setAttribute("disabled", "true");
-            submitButton.setAttribute("title", "Please select both a first and last letter");
+    const submitButton = document.getElementById("submit-button");
+      if (firstLetter && lastLetter) {
+        submitButton.removeAttribute("disabled");
+        submitButton.removeAttribute("title");
+      } else {
+        submitButton.setAttribute("disabled", "true");
+        submitButton.setAttribute("title", "Please select both a first and last letter");
         }
     }
 
