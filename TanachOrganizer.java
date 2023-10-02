@@ -19,7 +19,7 @@ public class TanachOrganizer {
             String currentBook = "";
             String line;
             while (fileScanner.hasNext()) {
-                line = fileScanner.next().replaceAll("[\\u000D\\n]", "");
+                line = fileScanner.next();
                 if (line.contains("^")) {
                     break;
                 }
@@ -52,8 +52,7 @@ public class TanachOrganizer {
             }
             if (x != (sections.length) - 1) {
                 jsonStr += "]," + System.lineSeparator();
-            }
-            else {
+            } else {
                 jsonStr += "]" + System.lineSeparator();
             }
         }
