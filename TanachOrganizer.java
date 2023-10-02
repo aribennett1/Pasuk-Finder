@@ -12,7 +12,7 @@ public class TanachOrganizer {
             sections[i] = new ArrayList<>();
         }
         try {
-            File file = new File("C:\\Users\\DEN - NEW\\IdeaProjects\\pauskFinder\\lib\\tanach.txt");
+            File file = new File(System.getProperty("user.dir") + File.separator + "lib" + File.separator + "tanach.txt");
             Scanner fileScanner = new Scanner(file);
             fileScanner.useDelimiter("\\.");
             Verse currentVerse;
