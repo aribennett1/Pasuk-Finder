@@ -160,7 +160,7 @@
             <span class="info-text">Last Letter: </span>
             <span id="last-letter" class="letter-space"></span>
         </div>
-        <button class="submit-button" id="submit-button">Submit</button>
+        <button class="submit-button" id="submit-button" disabled title="Please select both a first and last letter">Submit</button>
         <div class="verse-display" id="verse-display"></div>        
         <div class="info-container">
             <span class="info-text">Total Pesukim: </span><span id="total-verses" class="letter-space">0</span>
@@ -178,6 +178,16 @@ document.addEventListener("DOMContentLoaded", function () {
     let firstLetter = "";
     let lastLetter = "";
 
+    function updateSubmitButton() {
+        if (firstLetter && lastLetter) {
+            document.getElementById("submit-button").removeAttribute("disabled");
+            submitButton.removeAttribute("title");
+        } else {
+            document.getElementById("submit-button").setAttribute("disabled", "true");
+            submitButton.setAttribute("title", "Please select both a first and last letter");
+        }
+    }
+
     document.getElementById("submit-button").addEventListener("click", function () {
             fetchVerses();
         });
@@ -186,6 +196,7 @@ document.addEventListener("DOMContentLoaded", function () {
             if (event.target.tagName === "BUTTON") {
                 firstLetter = event.target.textContent;
                 firstLetterDisplay.textContent = firstLetter;
+                updateSubmitButton();
             }
         });
 
@@ -193,6 +204,7 @@ document.addEventListener("DOMContentLoaded", function () {
             if (event.target.tagName === "BUTTON") {
                 lastLetter = event.target.textContent;
                 lastLetterDisplay.textContent = lastLetter;
+                updateSubmitButton();
             }
         });
 
