@@ -3,14 +3,15 @@ public class Verse {
     String source;
 
     public Verse(String str, String book) {
+        String tempSourceStr = "";
+        int endIndex = str.indexOf(" ");
         if (book.equals("שמואל") || book.equals("מלכים") || book.equals("דברי הימים") || book.equals("עזרא / נחמיה")) {
             int firstSpacePos = str.indexOf(' ');
-            int secondSpacePos = str.indexOf(' ', firstSpacePos + 1);
-            this.source = book + " " + str.substring(0, secondSpacePos);
-        } else {
-            this.source = book + " " + str.substring(0, str.indexOf(" "));
+            endIndex = str.indexOf(' ', firstSpacePos + 1);
         }
-        this.data = str.substring(str.indexOf(" ")).replaceAll("[,;:\\n]", "").replace("-", " ").replaceAll("[ \\t]+", " ");
+        tempSourceStr = book + " " + str.substring(0, endIndex);
+        this.source = tempSourceStr.replaceAll("[\\s\\n\\t-]", " ").replaceAll("\\s+", " ");
+        this.data = str.substring(str.indexOf(" ")).replaceAll("[,;:]", "").replaceAll("[\\s\\n\\t-]", " ").replaceAll("\\s+", " ");
     }
 
     public String getData() {
