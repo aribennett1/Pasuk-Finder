@@ -141,14 +141,14 @@
          <button>ח</button>
          <button>ט</button>
          <button>י</button>
-         <button>כ</button>
+         <button>ך</button>
          <button>ל</button>
-         <button>מ</button>
-         <button>נ</button>
+         <button>ם</button>
+         <button>ן</button>
          <button>ס</button>
          <button>ע</button>
-         <button>פ</button>
-         <button>צ</button>
+         <button>ף</button>
+         <button>ץ</button>
          <button>ק</button>
          <button>ר</button>
          <button>ש</button>
@@ -177,7 +177,7 @@ document.addEventListener("DOMContentLoaded", function () {
     
     let firstLetter = "";
     let lastLetter = "";
-    
+
     function updateSubmitButton() {
     const submitButton = document.getElementById("submit-button");
       if (firstLetter && lastLetter) {
@@ -188,6 +188,7 @@ document.addEventListener("DOMContentLoaded", function () {
         submitButton.setAttribute("title", "Please select both a first and last letter");
         }
     }
+
 
     document.getElementById("submit-button").addEventListener("click", function () {
             fetchVerses();
